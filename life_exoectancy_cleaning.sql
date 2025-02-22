@@ -67,3 +67,22 @@ where w1.status = ''
 	and w2.status <> ''
     and w2.status = 'Developed'
 ;
+
+#populating life expectancy
+SELECT * 
+FROM `world_life_expectancy`.`world_life_expectancy` 
+WHERE lifeexpectancy = ''
+;
+Update `world_life_expectancy`.`world_life_expectancy` w1
+join `world_life_expectancy`.`world_life_expectancy` w2
+	on w1.Country = w2.country
+	and w1.year = w2.year -1
+	join `world_life_expectancy`.`world_life_expectancy` w3
+	on w1.Country = w3.country
+	and w1.year = w3.year + 1
+SET w1.lifeexpectancy = round((w2.lifeexpectancy + w3.lifeexpectancy) /2 ,1)
+	WHERE w1.lifeexpectancy = ''
+;
+
+
+
